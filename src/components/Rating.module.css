@@ -1,0 +1,36 @@
+.rating {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.rating.small {
+  font-size: 0.85rem;
+}
+
+.rating.medium {
+  font-size: 1.25rem;
+}
+
+.star {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--border);
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1;
+}
+
+.star:hover:not(:disabled) {
+  color: var(--accent);
+  transform: scale(1.1);
+}
+
+.star.filled {
+  color: #eab308;
+}
+
+.star:disabled {
+  cursor: default;
+}

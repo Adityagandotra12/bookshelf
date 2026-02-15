@@ -1,0 +1,154 @@
+.page {
+  padding: 0;
+}
+
+.adminHint {
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.adminHint a {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.adminHint a:hover {
+  text-decoration: underline;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.subtitle {
+  margin: 0 0 0.5rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.statusSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.75rem 0 0.25rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-muted);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.statusSummary span {
+  white-space: nowrap;
+}
+
+.totalLine {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.justAdded {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent-subtle, rgba(59, 130, 246, 0.15));
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.clearFilters {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.clearFilters:hover {
+  background: var(--bg-muted);
+}
+
+.addBtn {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.addBtn:hover {
+  background: var(--accent-hover);
+  color: white;
+}
+
+.loading {
+  color: var(--text-secondary);
+  padding: 2rem 0;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+}
+
+.empty .errorText {
+  color: #dc2626;
+  margin-bottom: 0.5rem;
+}
+
+.empty button + .addBtn {
+  margin-left: 0.5rem;
+}
+
+.empty .addBtn {
+  margin-top: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,138 @@
+.page {
+  max-width: 900px;
+}
+
+.page h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0 0 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.subtitle code {
+  background: var(--bg-muted);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-muted);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.role {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--bg-muted);
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.deleteBtn {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+  color: #dc2626;
+  background: transparent;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.empty {
+  margin-top: 1rem;
+  color: var(--text-secondary);
+}
+
+.error {
+  color: #dc2626;
+  margin: 0 0 0.5rem;
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.adminHint {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-muted);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.adminHint p {
+  margin: 0 0 0.75rem;
+}
+
+.adminHint p:last-child {
+  margin-bottom: 0;
+}
+
+.adminHint code {
+  background: var(--surface);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.code {
+  display: block;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  overflow-x: auto;
+  white-space: pre;
+}

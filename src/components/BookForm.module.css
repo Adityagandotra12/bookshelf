@@ -1,0 +1,97 @@
+.form {
+  max-width: 560px;
+}
+
+.formError {
+  font-size: 0.95rem;
+  color: #dc2626;
+  margin-bottom: 1rem;
+  padding: 0.6rem 0.75rem;
+  background: #fef2f2;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--surface);
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.field input.error,
+.field textarea.error {
+  border-color: #dc2626;
+}
+
+.msg {
+  font-size: 0.85rem;
+  color: #dc2626;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.select {
+  max-width: 200px;
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+.submit {
+  padding: 0.65rem 1.5rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 500px) {
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+}

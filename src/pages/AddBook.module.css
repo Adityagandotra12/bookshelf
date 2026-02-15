@@ -1,0 +1,17 @@
+.page h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.error {
+  margin-top: 1rem;
+  color: #dc2626;
+  font-size: 0.95rem;
+}
