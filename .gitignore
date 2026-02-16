@@ -10,7 +10,6 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-build
 *.local
 .env
 .env.*
@@ -26,3 +25,5 @@ build
 *.njsproj
 *.sln
 *.sw?
+netlify.toml
+netlify.toml
