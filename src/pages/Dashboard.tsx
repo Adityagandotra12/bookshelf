@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../store/hooks/useAuth';
 import { booksApi, shelvesApi } from '../api/client';
 import { BookCard } from '../components/BookCard';
 import { SearchBar } from '../components/SearchBar';

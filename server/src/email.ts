@@ -137,13 +137,15 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
 
   if (resend) {
     try {
-      const { error } = await resend.emails.send({
+      const payload = {
         from: getResendFrom(),
         to: [to],
         subject,
         html: html ?? (text ? `<p>${text.replace(/\n/g, '<br>')}</p>` : undefined),
         text: text ?? undefined,
-      });
+      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await resend.emails.send(payload as any);
       if (error) throw new Error(error.message);
       logger.info('Email sent (Resend) – delivered to inbox', { to, subject });
     } catch (err) {

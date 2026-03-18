@@ -42,7 +42,8 @@ router.get(
     const userId = Number(rawUserId);
     if (!Number.isInteger(userId) || userId < 1) {
       logger.error('Books list: invalid userId from JWT', { rawUserId });
-      return res.status(401).json({ error: 'Unauthorized', message: 'Invalid session' });
+      res.status(401).json({ error: 'Unauthorized', message: 'Invalid session' });
+      return;
     }
     const search = (req.query.search as string) ?? '';
     const status = req.query.status as string | undefined;
@@ -247,7 +248,8 @@ router.post(
     const rawUserId = (req as Request & { user: JwtPayload }).user.userId;
     const userId = Number(rawUserId);
     if (!Number.isInteger(userId) || userId < 1) {
-      return res.status(401).json({ error: 'Unauthorized', message: 'Invalid session' });
+      res.status(401).json({ error: 'Unauthorized', message: 'Invalid session' });
+      return;
     }
     const b = req.body;
     const authors = JSON.stringify(parseJsonArray(b.authors));
@@ -289,7 +291,8 @@ router.post(
     const bookId = typeof rawId === 'bigint' ? Number(rawId) : Number(rawId);
     if (!bookId || bookId < 1) {
       logger.error('Books create: invalid insertId', { insertRaw: insertRaw?.constructor?.name });
-      return res.status(500).json({ error: 'Internal Server Error', message: 'Failed to create book' });
+      res.status(500).json({ error: 'Internal Server Error', message: 'Failed to create book' });
+      return;
     }
 
     // Add to default shelf by status (To Read, Reading, Completed only)

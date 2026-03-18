@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Provider, useDispatch } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './contexts/AuthContext';
+import { store, type AppDispatch } from './store';
+import { loadUserThunk, setLoadingFalse } from './store/slices/authSlice';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { HomePage } from './pages/HomePage';
@@ -25,31 +28,45 @@ const queryClient = new QueryClient({
   },
 });
 
+function AuthInitializer({ children }: { children: React.ReactNode }) {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    if (localStorage.getItem('bookshelf_token')) {
+      dispatch(loadUserThunk());
+    } else {
+      dispatch(setLoadingFalse());
+    }
+  }, [dispatch]);
+  return <>{children}</>;
+}
+
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<HomePage />} />
-              <Route path="login" element={<Navigate to="/" replace />} />
-              <Route path="register" element={<Register />} />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-              <Route path="reset-password" element={<ResetPassword />} />
-              <Route path="shelves" element={<ProtectedRoute><Shelves /></ProtectedRoute>} />
-              <Route path="shelves/:shelfId" element={<ProtectedRoute><ShelfDetail /></ProtectedRoute>} />
-              <Route path="books/new" element={<ProtectedRoute><AddBook /></ProtectedRoute>} />
-              <Route path="books/:bookId" element={<ProtectedRoute><BookDetail /></ProtectedRoute>} />
-              <Route path="search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
-              <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="users" element={<ProtectedRoute><UsersList /></ProtectedRoute>} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Route>
-          </Routes>
+          <AuthInitializer>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="login" element={<Navigate to="/" replace />} />
+                <Route path="register" element={<Register />} />
+                <Route path="forgot-password" element={<ForgotPassword />} />
+                <Route path="reset-password" element={<ResetPassword />} />
+                <Route path="shelves" element={<ProtectedRoute><Shelves /></ProtectedRoute>} />
+                <Route path="shelves/:shelfId" element={<ProtectedRoute><ShelfDetail /></ProtectedRoute>} />
+                <Route path="books/new" element={<ProtectedRoute><AddBook /></ProtectedRoute>} />
+                <Route path="books/:bookId" element={<ProtectedRoute><BookDetail /></ProtectedRoute>} />
+                <Route path="search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+                <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                <Route path="users" element={<ProtectedRoute><UsersList /></ProtectedRoute>} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Route>
+            </Routes>
+          </AuthInitializer>
         </BrowserRouter>
-      </AuthProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 }
 

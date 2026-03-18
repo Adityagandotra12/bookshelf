@@ -1,6 +1,9 @@
 import type { Book, User, Shelf } from '../types';
 
-const API_BASE = '/api';
+const API_BASE =
+  typeof import.meta.env.VITE_API_URL === 'string' && import.meta.env.VITE_API_URL.trim() !== ''
+    ? import.meta.env.VITE_API_URL.replace(/\/$/, '')
+    : '/api';
 
 function getToken(): string | null {
   return localStorage.getItem('bookshelf_token');
@@ -125,7 +128,6 @@ export const usersApi = {
   getProfile: () => api<{ user: User & { created_at?: string } }>('/users/profile'),
   updateProfile: (body: { name?: string; password?: string }) =>
     api<{ user: User }>('/users/profile', { method: 'PUT', body: JSON.stringify(body) }),
-  /** Admin only: list all users (new signups). */
   listUsers: () => api<{ users: UserRow[] }>('/users/list'),
   deleteUser: (id: number) =>
     api<{ message: string }>(`/users/${id}`, { method: 'DELETE' }),

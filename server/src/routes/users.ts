@@ -18,13 +18,16 @@ router.get(
       'SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC'
     );
     const rows = Array.isArray(raw) ? raw : raw != null ? [raw] : [];
-    const users = rows.map((r: Record<string, unknown>) => ({
-      id: Number(r.id),
-      name: String(r.name ?? ''),
-      email: String(r.email ?? ''),
-      role: String(r.role ?? 'user'),
-      created_at: r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at ?? ''),
-    }));
+    const users = rows.map((r) => {
+      const row = r as Record<string, unknown>;
+      return {
+      id: Number(row.id),
+      name: String(row.name ?? ''),
+      email: String(row.email ?? ''),
+      role: String(row.role ?? 'user'),
+      created_at: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at ?? ''),
+    };
+    });
     res.json({ users });
   })
 );
@@ -39,7 +42,8 @@ router.delete(
     const adminUserId = (req as Request & { user: JwtPayload }).user.userId;
     const id = Number(req.params.id);
     if (id === adminUserId) {
-      return res.status(400).json({ error: 'Bad Request', message: 'You cannot delete your own account' });
+      res.status(400).json({ error: 'Bad Request', message: 'You cannot delete your own account' });
+      return;
     }
     const result = await query<{ affectedRows?: number }>(
       'DELETE FROM users WHERE id = ?',
@@ -47,7 +51,8 @@ router.delete(
     );
     const affected = (result as { affectedRows?: number })?.affectedRows ?? 0;
     if (affected === 0) {
-      return res.status(404).json({ error: 'Not Found', message: 'User not found' });
+      res.status(404).json({ error: 'Not Found', message: 'User not found' });
+      return;
     }
     res.status(200).json({ message: 'User deleted' });
   })

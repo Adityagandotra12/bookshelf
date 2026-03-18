@@ -47,6 +47,7 @@ npm run dev
 API runs at **http://localhost:3001**.
 
 **Optional – demo account:** From the `server` folder run `npm run seed` to create a demo user. Then log in with:
+
 - **Email:** `demo@bookshelf.app`
 - **Password:** `demo123`
 
@@ -67,25 +68,32 @@ To send reset links to users' inboxes, configure Gmail in `server/.env` (see **s
 
 ### 5. Environment (backend)
 
-| Variable     | Description           | Default        |
-|-------------|------------------------|----------------|
-| NODE_ENV    | Environment            | development    |
-| PORT        | API port               | 3001           |
-| JWT_SECRET  | Secret for JWT         | (change in prod) |
-| JWT_EXPIRES_IN | Token expiry        | 7d             |
-| DB_HOST     | MySQL host             | localhost      |
-| DB_PORT     | MySQL port             | 3306           |
-| DB_USER     | MySQL user             | root           |
-| DB_PASSWORD | MySQL password         | (empty)        |
-| DB_NAME     | Database name          | bookshelf      |
-| CORS_ORIGIN | Allowed frontend origin | http://localhost:5173 |
-| FRONTEND_URL | Base URL for reset link in email | http://localhost:5173 |
-| SMTP_USER, SMTP_PASS, EMAIL_FROM | Gmail for sending reset emails | (optional) |
+| Variable                         | Description                      | Default               |
+| -------------------------------- | -------------------------------- | --------------------- |
+| NODE_ENV                         | Environment                      | development           |
+| PORT                             | API port                         | 3001                  |
+| JWT_SECRET                       | Secret for JWT                   | (change in prod)      |
+| JWT_EXPIRES_IN                   | Token expiry                     | 7d                    |
+| DB_HOST                          | MySQL host                       | localhost             |
+| DB_PORT                          | MySQL port                       | 3306                  |
+| DB_USER                          | MySQL user                       | root                  |
+| DB_PASSWORD                      | MySQL password                   | (empty)               |
+| DB_NAME                          | Database name                    | bookshelf             |
+| CORS_ORIGIN                      | Allowed frontend origin          | http://localhost:5173 |
+| FRONTEND_URL                     | Base URL for reset link in email | http://localhost:5173 |
+| DB_PORT                          | MySQL/TiDB port (TiDB often 4000)| 3306                  |
+| DB_SSL                           | Use TLS (required for TiDB Cloud)| false                 |
+| SMTP_USER, SMTP_PASS, EMAIL_FROM | Gmail for sending reset emails   | (optional)            |
+
+## Deploy (Vercel + Render + TiDB Cloud)
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for step-by-step: TiDB Cloud, Render (backend), Vercel (frontend), env vars, and common issues.
 
 ## Scripts
 
 - **Frontend**: `npm run dev` (Vite), `npm run build`, `npm run preview`
 - **Backend**: `cd server && npm run dev` (tsx watch), `npm run build`, `npm start`
+- **From root**: `npm run server:dev` (backend only), `npm run server:start` (build + start backend)
 
 ## API overview
 

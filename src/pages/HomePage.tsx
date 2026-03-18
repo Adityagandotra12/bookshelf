@@ -1,4 +1,4 @@
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../store/hooks/useAuth';
 import { Login } from './Login';
 import { Dashboard } from './Dashboard';
 

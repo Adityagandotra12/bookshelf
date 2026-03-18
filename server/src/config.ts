@@ -1,20 +1,29 @@
 import 'dotenv/config';
 
+const port = process.env.PORT;
+const dbPort = process.env.DB_PORT;
+
 export const config = {
   env: process.env.NODE_ENV ?? 'development',
-  port: parseInt(process.env.PORT ?? '3001', 10),
+  port: port ? parseInt(port, 10) : 3001,
   jwtSecret: process.env.JWT_SECRET ?? 'dev-secret-change-in-production',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
   db: {
     host: process.env.DB_HOST ?? 'localhost',
-    port: parseInt(process.env.DB_PORT ?? '3306', 10),
+    port: dbPort ? parseInt(dbPort, 10) : 3306,
     user: process.env.DB_USER ?? 'root',
     password: process.env.DB_PASSWORD ?? '',
     database: process.env.DB_NAME ?? 'bookshelf',
+    ssl: process.env.DB_SSL === 'true' || process.env.DB_SSL === '1',
   },
-  corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
+  /** Allowed frontend origin(s). Use FRONTEND_URL or CORS_ORIGIN. Comma-separated for multiple. */
+  corsOrigin: process.env.FRONTEND_URL ?? process.env.CORS_ORIGIN ?? 'http://localhost:5173',
+  corsOrigins: (process.env.FRONTEND_URL ?? process.env.CORS_ORIGIN ?? 'http://localhost:5173')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean),
   frontendUrl: process.env.FRONTEND_URL ?? process.env.CORS_ORIGIN ?? 'http://localhost:5173',
-  backendPublicUrl: process.env.BACKEND_URL ?? `http://localhost:${process.env.PORT ?? '3001'}`,
+  backendPublicUrl: process.env.BACKEND_URL ?? '',
   resendApiKey: process.env.RESEND_API_KEY ?? '',
   email: (() => {
     const user = process.env.SMTP_USER ?? '';

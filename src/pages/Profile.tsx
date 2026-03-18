@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../store/hooks/useAuth';
 import { usersApi } from '../api/client';
 import styles from './Profile.module.css';
 

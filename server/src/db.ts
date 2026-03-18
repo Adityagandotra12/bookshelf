@@ -17,13 +17,15 @@ export async function initDb(): Promise<void> {
 
   const dbName = config.db.database;
 
-  const connWithoutDb = await mysql.createConnection({
+  const baseOptions = {
     host: config.db.host,
     port: config.db.port,
     user: config.db.user,
     password: config.db.password,
     multipleStatements: true,
-  });
+    ...(config.db.ssl ? { ssl: { rejectUnauthorized: true } } : {}),
+  };
+  const connWithoutDb = await mysql.createConnection(baseOptions);
 
   try {
     await connWithoutDb.execute(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
@@ -54,10 +56,7 @@ export async function initDb(): Promise<void> {
   }
 
   pool = mysql.createPool({
-    host: config.db.host,
-    port: config.db.port,
-    user: config.db.user,
-    password: config.db.password,
+    ...baseOptions,
     database: config.db.database,
     waitForConnections: true,
     connectionLimit: 10,

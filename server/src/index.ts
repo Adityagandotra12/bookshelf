@@ -25,20 +25,18 @@ async function ensureDemoUser(): Promise<void> {
   );
   const row = Array.isArray(existing) ? existing[0] : null;
   if (row) {
-    // Ensure demo user is always admin so "Users" list works
     if ((row as { role?: string }).role !== 'admin') {
       await query('UPDATE users SET role = ? WHERE email = ?', ['admin', DEMO_EMAIL]);
       logger.info('Demo user upgraded to admin', { email: DEMO_EMAIL });
     }
     return;
   }
-
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 12);
-  const insertResult = await query<{ insertId: number }>(
+  const insertResult = await query<{ insertId?: number }>(
     'INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)',
     [DEMO_NAME, DEMO_EMAIL, passwordHash, 'admin']
   );
-  const userId = Number(insertResult?.insertId ?? 0);
+  const userId = Number((insertResult as { insertId?: number })?.insertId ?? 0);
   if (userId < 1) throw new Error('Failed to create demo user');
   await query(
     'INSERT INTO shelves (user_id, name, is_default) VALUES (?, ?, 1), (?, ?, 1), (?, ?, 1)',
@@ -50,9 +48,23 @@ async function ensureDemoUser(): Promise<void> {
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: config.corsOrigin, credentials: true }));
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      const allowed = config.corsOrigins;
+      if (!origin || allowed.includes(origin)) cb(null, origin ?? allowed[0]);
+      else cb(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '1mb' }));
 app.use(requestLogger);
+
+/** Health check for Render and load balancers */
+app.get('/health', (_req, res) => {
+  res.json({ ok: true });
+});
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -61,7 +73,6 @@ const authLimiter = rateLimit({
 });
 app.use('/auth', authLimiter);
 app.use('/auth', authRoutes);
-
 app.use('/books', booksRoutes);
 app.use('/shelves', shelvesRoutes);
 app.use('/users', usersRoutes);
@@ -69,16 +80,22 @@ app.use('/users', usersRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-async function start() {
-  await initDb();
+async function start(): Promise<void> {
+  try {
+    await initDb();
+  } catch (err) {
+    logger.error('Database connection failed', { error: err instanceof Error ? err.message : String(err) });
+    process.exit(1);
+  }
   await initEmail();
   await ensureDemoUser();
-  app.listen(config.port, () => {
-    logger.info(`Server listening on port ${config.port}`, { env: config.env });
+  const port = config.port;
+  app.listen(port, () => {
+    logger.info(`Server listening on port ${port}`, { env: config.env });
   });
 }
 
 start().catch((err) => {
-  logger.error('Failed to start server', { err });
+  logger.error('Start failed', { error: err instanceof Error ? err.message : String(err), stack: err instanceof Error ? err.stack : undefined });
   process.exit(1);
 });

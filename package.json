@@ -8,10 +8,14 @@
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server:dev": "cd server && npm run dev",
+    "server:start": "cd server && npm run build && npm start"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.0",
     "@hookform/resolvers": "^5.2.2",
+    "react-redux": "^9.2.0",
     "@tanstack/react-query": "^5.90.20",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
