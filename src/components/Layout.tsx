@@ -1,6 +1,7 @@
 import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { useAuth } from '../store/hooks/useAuth';
+import heroImage from '../assets/bookshelf-hero.jpg';
 import styles from './Layout.module.css';
 
 const NAV_ITEMS: { to: string; label: string; end?: boolean }[] = [
@@ -163,6 +164,12 @@ export function Layout() {
     return (
       <div className={styles.splitLayout}>
         <div className={styles.splitBrand}>
+          <img
+            src={heroImage}
+            alt=""
+            className={styles.splitBrandImage}
+            aria-hidden="true"
+          />
           <div className={styles.splitBrandOrb1} aria-hidden="true" />
           <div className={styles.splitBrandOrb2} aria-hidden="true" />
           <div className={styles.splitBrandContent}>
