@@ -1,15 +1,15 @@
 .rating {
   display: flex;
-  gap: 2px;
+  gap: 1px;
   align-items: center;
 }
 
 .rating.small {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .rating.medium {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .star {
@@ -18,17 +18,17 @@
   padding: 0;
   cursor: pointer;
   color: var(--border);
-  transition: color 0.15s, transform 0.15s;
+  transition: color var(--transition), transform var(--transition);
   line-height: 1;
 }
 
 .star:hover:not(:disabled) {
-  color: var(--accent);
-  transform: scale(1.1);
+  color: #f59e0b;
+  transform: scale(1.15);
 }
 
 .star.filled {
-  color: #eab308;
+  color: #f59e0b;
 }
 
 .star:disabled {

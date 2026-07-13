@@ -31,11 +31,14 @@ export function Search() {
 
   return (
     <div className={styles.page}>
-      <h1>Search your library</h1>
+      <div>
+        <h1 className="page-title">Search your library</h1>
+        <p className="page-subtitle">Find books by title, author, or tag.</p>
+      </div>
       <div className={styles.searchWrap}>
         <SearchBar defaultValue={q} />
+        <Filters showShelfFilter showTagFilter shelfOptions={shelfOptions} />
       </div>
-      <Filters showShelfFilter showTagFilter shelfOptions={shelfOptions} />
       {isLoading ? (
         <p className={styles.loading}>Searching…</p>
       ) : q ? (

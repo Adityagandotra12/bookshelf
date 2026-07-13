@@ -39,10 +39,12 @@ export function Shelves() {
 
   return (
     <div className={styles.page}>
-      <h1>My Shelves</h1>
-      <p className={styles.subtitle}>
-        Organize your books into shelves. Default shelves (To Read, Reading, Completed) are created when you sign up. Create custom shelves (e.g. “Work”, “Fiction 2026”).
-      </p>
+      <div>
+        <h1 className="page-title">My Shelves</h1>
+        <p className="page-subtitle">
+          Organize your books into shelves. Default shelves (To Read, Reading, Completed) are created when you sign up. Create custom shelves (e.g. “Work”, “Fiction 2026”).
+        </p>
+      </div>
       <div className={styles.createWrap}>
         <input
           type="text"

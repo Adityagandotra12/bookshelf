@@ -58,10 +58,12 @@ export function UsersList() {
 
   return (
     <div className={styles.page}>
-      <h1>All users</h1>
-      <p className={styles.subtitle}>
-        New signups appear here. Users are stored in the <code>users</code> table in the database.
-      </p>
+      <div>
+        <h1 className="page-title">All users</h1>
+        <p className="page-subtitle">
+          New signups appear here. Users are stored in the <code>users</code> table in the database.
+        </p>
+      </div>
       {deleteUserMutation.isError && (
         <p className={styles.error}>
           {deleteUserMutation.error instanceof Error ? deleteUserMutation.error.message : 'Failed to delete user.'}

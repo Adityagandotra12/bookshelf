@@ -1,26 +1,26 @@
 .form {
-  max-width: 560px;
+  max-width: 600px;
 }
 
 .formError {
-  font-size: 0.95rem;
-  color: #dc2626;
-  margin-bottom: 1rem;
-  padding: 0.6rem 0.75rem;
-  background: #fef2f2;
-  border-radius: 8px;
-  border: 1px solid #fecaca;
+  font-size: var(--text-sm);
+  color: var(--danger);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--danger-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 .field {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-5);
 }
 
 .field label {
   display: block;
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   font-weight: 600;
-  margin-bottom: 0.35rem;
+  margin-bottom: var(--space-2);
   color: var(--text);
 }
 
@@ -28,13 +28,14 @@
 .field textarea,
 .field select {
   width: 100%;
-  padding: 0.6rem 0.75rem;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
   background: var(--surface);
   color: var(--text);
   box-sizing: border-box;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .field input:focus,
@@ -42,51 +43,57 @@
 .field select:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .field input.error,
 .field textarea.error {
-  border-color: #dc2626;
+  border-color: var(--danger);
 }
 
 .msg {
-  font-size: 0.85rem;
-  color: #dc2626;
-  margin-top: 0.25rem;
+  font-size: var(--text-xs);
+  color: var(--danger);
+  margin-top: var(--space-1);
   display: block;
 }
 
 .row2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .select {
-  max-width: 200px;
+  max-width: 100%;
 }
 
 .actions {
-  margin-top: 1.5rem;
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
 }
 
 .submit {
-  padding: 0.65rem 1.5rem;
-  background: var(--accent);
+  padding: var(--space-3) var(--space-6);
+  background: var(--gradient-brand);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: var(--text-sm);
   cursor: pointer;
+  transition: transform var(--transition-bounce), box-shadow var(--transition);
+  box-shadow: var(--shadow-glow-sm);
 }
 
 .submit:hover:not(:disabled) {
-  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 .submit:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

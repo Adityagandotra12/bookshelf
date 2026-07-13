@@ -81,7 +81,7 @@ export function ShelfDetail() {
       ) : books.length === 0 ? (
         <div className={styles.empty}>
           <p>No books on this shelf yet.</p>
-          <Link to="/books/new">Add a book</Link>
+          <Link to="/books/new">Add Book</Link>
         </div>
       ) : (
         <div className={styles.grid}>

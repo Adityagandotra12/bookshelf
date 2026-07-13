@@ -1,12 +1,13 @@
-.page h1 {
-  margin: 0.5rem 0 0.25rem;
-  font-size: 1.75rem;
-  font-weight: 700;
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
 .breadcrumb {
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .breadcrumb a {
@@ -19,51 +20,62 @@
 }
 
 .sep {
-  margin: 0 0.35rem;
+  margin: 0 var(--space-2);
+  color: var(--text-tertiary);
+}
+
+.page h1 {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .subtitle {
-  margin: 0 0 1rem;
+  margin: 0;
   color: var(--text-secondary);
+  font-size: var(--text-sm);
 }
 
 .actions {
-  margin: 0 0 1rem;
+  margin: 0;
 }
 
 .deleteShelfBtn {
-  padding: 0.4rem 0.75rem;
-  font-size: 0.9rem;
-  color: #dc2626;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--danger);
   background: transparent;
-  border: 1px solid #dc2626;
-  border-radius: 6px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-weight: 500;
+  transition: background var(--transition);
 }
 
 .deleteShelfBtn:hover:not(:disabled) {
-  background: #fef2f2;
-  color: #b91c1c;
+  background: var(--danger-subtle);
 }
 
 .deleteShelfBtn:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
 .loading {
   color: var(--text-secondary);
-  padding: 2rem 0;
+  padding: var(--space-8) 0;
+  font-size: var(--text-sm);
 }
 
 .empty {
   text-align: center;
-  padding: 3rem;
+  padding: var(--space-12) var(--space-6);
   background: var(--surface);
   border: 1px dashed var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   color: var(--text-secondary);
+  font-size: var(--text-sm);
 }
 
 .empty a {
@@ -73,6 +85,13 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-5);
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-4);
+  }
 }
