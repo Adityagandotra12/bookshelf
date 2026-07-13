@@ -61,9 +61,15 @@ app.use(
 app.use(express.json({ limit: '1mb' }));
 app.use(requestLogger);
 
+let dbReady = false;
+
 /** Health check for Render and load balancers */
 app.get('/health', (_req, res) => {
-  res.json({ ok: true });
+  if (dbReady) {
+    res.json({ ok: true });
+    return;
+  }
+  res.status(503).json({ ok: false, error: 'Database not ready' });
 });
 
 const authLimiter = rateLimit({
@@ -81,18 +87,30 @@ app.use(notFound);
 app.use(errorHandler);
 
 async function start(): Promise<void> {
+  const port = config.port;
+
+  // Bind immediately so Render's port scan succeeds (before DB init).
+  await new Promise<void>((resolve, reject) => {
+    const server = app.listen(port, '0.0.0.0', () => {
+      logger.info(`Server listening on port ${port}`, { env: config.env, host: '0.0.0.0' });
+      resolve();
+    });
+    server.on('error', reject);
+  });
+
   try {
     await initDb();
+    await initEmail();
+    await ensureDemoUser();
+    dbReady = true;
+    logger.info('Application ready');
   } catch (err) {
-    logger.error('Database connection failed', { error: err instanceof Error ? err.message : String(err) });
-    process.exit(1);
+    logger.error('Database connection failed', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+    });
+    // Keep the process alive so Render logs remain accessible for debugging.
   }
-  await initEmail();
-  await ensureDemoUser();
-  const port = config.port;
-  app.listen(port, () => {
-    logger.info(`Server listening on port ${port}`, { env: config.env });
-  });
 }
 
 start().catch((err) => {

@@ -1,0 +1,26 @@
+# Render Blueprint — Bookshelf backend API
+#
+# Repo layout:
+#   / (root)   React + Vite frontend — deploy to Vercel OR Render Static Site (dist/)
+#   /server    Express API            — deploy THIS as a Render Web Service
+#
+# IMPORTANT: Do NOT deploy the repo root as a Web Service.
+# Root package.json has no "start" script (it is a Vite SPA, not a Node server).
+
+services:
+  - type: web
+    name: bookshelf-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: DB_SSL
+        value: "true"
+      # Set in Render dashboard: JWT_SECRET, DB_HOST, DB_PORT, DB_USER,
+      # DB_PASSWORD, DB_NAME, FRONTEND_URL
