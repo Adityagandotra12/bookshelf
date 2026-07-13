@@ -22,6 +22,8 @@ function getInitials(name: string): string {
 
 export function Layout() {
   const { user, logout } = useAuth();
+  const userName = user?.name ?? '';
+  const userEmail = user?.email ?? '';
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
@@ -94,7 +96,7 @@ export function Layout() {
           {label}
         </NavLink>
       ))}
-      {user?.email === 'demo@bookshelf.app' && (
+      {userEmail === 'demo@bookshelf.app' && (
         <NavLink
           to="/users"
           className={({ isActive }) =>
@@ -119,11 +121,11 @@ export function Layout() {
           aria-haspopup="true"
         >
           <span className={styles.avatar} aria-hidden="true">
-            {getInitials(user!.name)}
+            {getInitials(userName)}
           </span>
           <span className={styles.profileInfo}>
-            <span className={styles.profileName}>{user!.name}</span>
-            <span className={styles.profileEmail}>{user!.email}</span>
+            <span className={styles.profileName}>{userName}</span>
+            <span className={styles.profileEmail}>{userEmail}</span>
           </span>
           <svg className={styles.chevron} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -133,10 +135,10 @@ export function Layout() {
         {profileOpen && (
           <div className={styles.dropdown} role="menu">
             <div className={styles.dropdownHeader}>
-              <span className={styles.dropdownAvatar}>{getInitials(user!.name)}</span>
+              <span className={styles.dropdownAvatar}>{getInitials(userName)}</span>
               <div>
-                <p className={styles.dropdownName}>{user!.name}</p>
-                <p className={styles.dropdownEmail}>{user!.email}</p>
+                <p className={styles.dropdownName}>{userName}</p>
+                <p className={styles.dropdownEmail}>{userEmail}</p>
               </div>
             </div>
             <div className={styles.dropdownDivider} />
