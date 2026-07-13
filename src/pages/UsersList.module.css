@@ -158,3 +158,21 @@
   overflow-x: auto;
   white-space: pre;
 }
+
+@media (max-width: 480px) {
+  .page h1 {
+    font-size: var(--text-xl);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .tableWrap {
+    margin-left: calc(-1 * var(--space-3));
+    margin-right: calc(-1 * var(--space-3));
+    border-radius: var(--radius-sm);
+  }
+}

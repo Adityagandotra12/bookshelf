@@ -165,3 +165,34 @@
   border-radius: var(--radius-full);
   flex-shrink: 0;
 }
+
+@media (max-width: 480px) {
+  .createWrap {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-4);
+  }
+
+  .createInput {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .createBtn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .link {
+    padding: var(--space-3) var(--space-4);
+    min-width: 0;
+  }
+
+  .deleteBtn {
+    margin: 0 var(--space-3) var(--space-3);
+  }
+}

@@ -290,13 +290,55 @@
   text-decoration: underline;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .header {
     grid-template-columns: 1fr;
+    gap: var(--space-5);
     padding: var(--space-5);
   }
 
   .cover {
+    max-width: 160px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .meta {
+    text-align: center;
+  }
+
+  .tags {
+    justify-content: center;
+  }
+
+  .title {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: var(--space-4);
+  }
+
+  .cover {
     max-width: 140px;
+  }
+
+  .notes,
+  .shelvesSection {
+    padding: var(--space-4);
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 }

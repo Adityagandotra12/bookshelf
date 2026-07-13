@@ -91,7 +91,35 @@
 
 @media (max-width: 600px) {
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .createWrap {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-4);
+  }
+
+  .createInput {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .createBtn {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .link {
+    padding: var(--space-3) var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .deleteBtn {
+    margin: 0 var(--space-3) var(--space-3);
+    align-self: flex-end;
   }
 }

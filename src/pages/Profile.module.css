@@ -163,4 +163,8 @@
   .formCard {
     padding: var(--space-5);
   }
+
+  .button {
+    width: 100%;
+  }
 }
