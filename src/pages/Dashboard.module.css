@@ -434,11 +434,6 @@
     padding: var(--space-5);
   }
 
-  .statsGrid {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
-  }
-
   .statCard {
     padding: var(--space-3) var(--space-4);
     gap: var(--space-3);
@@ -446,21 +441,5 @@
 
   .statIcon {
     font-size: 1.4rem;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-  }
-
-  .emptyActions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .addBtn,
-  .addBtnSecondary {
-    width: 100%;
-    justify-content: center;
   }
 }

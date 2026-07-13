@@ -511,35 +511,3 @@
 .link:hover {
   text-decoration: underline;
 }
-
-@media (max-width: 480px) {
-  .wrapper {
-    min-height: auto;
-    padding: var(--space-2) 0;
-    width: 100%;
-  }
-
-  .card,
-  .loginCard {
-    padding: var(--space-6) var(--space-5);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-  }
-
-  .loginCard .loginHeader {
-    margin-bottom: var(--space-6);
-  }
-
-  .title {
-    font-size: var(--text-xl);
-  }
-
-  .labelRow {
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
-  .forgotLink {
-    margin-left: auto;
-  }
-}

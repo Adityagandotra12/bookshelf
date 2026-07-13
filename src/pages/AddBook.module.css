@@ -116,13 +116,3 @@
     padding: var(--space-5) var(--space-5);
   }
 }
-
-@media (max-width: 480px) {
-  .hero {
-    padding: var(--space-5) var(--space-4);
-  }
-
-  .formCard {
-    padding: var(--space-4);
-  }
-}
