@@ -5,12 +5,13 @@
   background: var(--bg);
 }
 
-/* ── Header bar ── */
+/* ── Header ── */
 .header {
   position: sticky;
   top: 0;
-  z-index: 200;
-  background: rgba(255, 255, 255, 0.92);
+  z-index: 100;
+  height: var(--header-height);
+  background: rgba(255, 255, 255, 0.85);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -20,19 +21,25 @@
 
 @media (prefers-color-scheme: dark) {
   .header {
-    background: rgba(20, 22, 26, 0.92);
+    background: rgba(20, 22, 26, 0.88);
   }
 }
 
-.headerBar {
+.headerInner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  height: var(--header-height);
+  height: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-6);
+  gap: var(--space-6);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
 }
 
 .logo {
@@ -41,7 +48,6 @@
   gap: var(--space-2);
   text-decoration: none;
   color: var(--text);
-  flex-shrink: 0;
   transition: opacity var(--transition);
 }
 
@@ -66,28 +72,25 @@
   background-clip: text;
 }
 
-/* ── Desktop navigation (laptop + desktop) ── */
-.desktopNav {
+/* ── Navigation ── */
+.nav {
   display: flex;
   align-items: center;
   flex: 1;
   gap: var(--space-4);
   min-width: 0;
-  margin-left: var(--space-6);
 }
 
 .navLinks {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  flex-wrap: wrap;
 }
 
 .navLink {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 40px;
+  height: 36px;
   padding: 0 var(--space-3);
   border-radius: var(--radius-sm);
   font-size: var(--text-sm);
@@ -96,7 +99,6 @@
   text-decoration: none;
   white-space: nowrap;
   transition: background var(--transition), color var(--transition);
-  -webkit-tap-highlight-color: transparent;
 }
 
 .navLink:hover {
@@ -129,13 +131,6 @@
   color: #fff !important;
 }
 
-.guestNav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-left: auto;
-}
-
 .navRight {
   display: flex;
   align-items: center;
@@ -159,7 +154,6 @@
   cursor: pointer;
   transition: background var(--transition), border-color var(--transition);
   text-align: left;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .profileBtn:hover {
@@ -197,7 +191,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 140px;
 }
 
 .profileEmail {
@@ -207,7 +201,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 140px;
 }
 
 .chevron {
@@ -220,6 +214,7 @@
   transform: rotate(180deg);
 }
 
+/* ── Dropdown ── */
 .dropdown {
   position: absolute;
   top: calc(100% + var(--space-2));
@@ -231,7 +226,7 @@
   box-shadow: var(--shadow-lg);
   padding: var(--space-2);
   animation: dropdownIn var(--transition-slow) ease;
-  z-index: 210;
+  z-index: 200;
 }
 
 @keyframes dropdownIn {
@@ -319,7 +314,6 @@
   font-weight: 500;
   color: var(--danger);
   text-align: left;
-  cursor: pointer;
   transition: background var(--transition);
 }
 
@@ -327,24 +321,20 @@
   background: var(--danger-subtle);
 }
 
-/* ── Hamburger button ── */
+/* ── Mobile menu toggle ── */
 .menuToggle {
   display: none;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 5px;
-  width: 44px;
-  height: 44px;
-  padding: 10px;
+  width: 36px;
+  height: 36px;
+  padding: var(--space-2);
   background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  flex-shrink: 0;
   transition: background var(--transition);
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
 }
 
 .menuToggle:hover {
@@ -353,132 +343,11 @@
 
 .menuBar {
   display: block;
-  width: 20px;
+  width: 100%;
   height: 2px;
   background: var(--text);
   border-radius: 1px;
-  transition: transform 0.25s ease, opacity 0.2s ease;
-  transform-origin: center;
-}
-
-.menuToggleOpen .menuBar:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-
-.menuToggleOpen .menuBar:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-
-.menuToggleOpen .menuBar:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* ── Mobile drawer + backdrop ── */
-.backdrop {
-  position: fixed;
-  inset: 0;
-  top: var(--header-height);
-  z-index: 150;
-  border: none;
-  padding: 0;
-  margin: 0;
-  background: rgba(15, 17, 23, 0.45);
-  cursor: pointer;
-  animation: fadeIn 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.mobileNav {
-  position: fixed;
-  top: var(--header-height);
-  right: 0;
-  bottom: 0;
-  z-index: 160;
-  width: min(320px, 88vw);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-4);
-  padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
-  background: var(--surface);
-  border-left: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  transform: translateX(100%);
-  visibility: hidden;
-  pointer-events: none;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s;
-}
-
-.mobileNavOpen {
-  transform: translateX(0);
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.mobileNav .navLinks {
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--space-1);
-}
-
-.mobileNav .navLink {
-  justify-content: flex-start;
-  min-height: 48px;
-  padding: 0 var(--space-4);
-  font-size: var(--text-base);
-}
-
-.mobileNavDivider {
-  height: 1px;
-  background: var(--border);
-  margin: var(--space-2) 0;
-}
-
-.mobileNav .navRight {
-  margin-left: 0;
-  width: 100%;
-}
-
-.mobileNav .profileWrap {
-  width: 100%;
-}
-
-.mobileNav .profileBtn {
-  width: 100%;
-  padding: var(--space-3);
-  min-height: 56px;
-}
-
-.mobileNav .profileInfo {
-  display: flex;
-  flex: 1;
-}
-
-.mobileNav .profileName,
-.mobileNav .profileEmail {
-  max-width: none;
-}
-
-.mobileNav .chevron {
-  display: block;
-  margin-left: auto;
-}
-
-.mobileNav .dropdown {
-  position: static;
-  box-shadow: none;
-  border: 1px solid var(--border);
-  margin-top: var(--space-2);
-  animation: none;
-  width: 100%;
+  transition: transform var(--transition), opacity var(--transition);
 }
 
 /* ── Main content ── */
@@ -504,6 +373,7 @@
   background: url('/bookshelf-hero.jpg') center center / cover no-repeat;
 }
 
+/* Light overlay — keeps the photo visible, text still readable */
 .splitBrand::after {
   content: '';
   position: absolute;
@@ -632,29 +502,104 @@
   letter-spacing: 0.02em;
 }
 
-/* ── Tablet (portrait + small laptops) ── */
-@media (max-width: 1024px) {
-  .desktopNav {
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .profileInfo,
+  .chevron {
     display: none;
+  }
+
+  .profileBtn {
+    padding: var(--space-1);
+  }
+}
+
+@media (max-width: 768px) {
+  .headerInner {
+    padding: 0 var(--space-4);
+    flex-wrap: wrap;
+    height: auto;
+    min-height: var(--header-height);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+    gap: 0;
+  }
+
+  .headerLeft {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .menuToggle {
     display: flex;
+    margin-left: auto;
   }
 
-  .headerBar {
-    padding: 0 var(--space-5);
+  .nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    order: 3;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+    max-height: calc(100dvh - var(--header-height) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .main {
-    padding: var(--space-6) var(--space-5);
+  .navOpen {
+    display: flex;
   }
-}
 
-/* ── Phone ── */
-@media (max-width: 768px) {
-  .headerBar {
+  .navLinks {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .navLink {
+    height: 44px;
     padding: 0 var(--space-4);
+  }
+
+  .navRight {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .profileWrap {
+    width: 100%;
+  }
+
+  .profileBtn {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .profileInfo {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .profileName,
+  .profileEmail {
+    max-width: none;
+  }
+
+  .chevron {
+    display: block;
+    margin-left: auto;
+  }
+
+  .dropdown {
+    position: static;
+    box-shadow: none;
+    border: 1px solid var(--border);
+    margin-top: var(--space-2);
+    animation: none;
   }
 
   .main {
@@ -714,16 +659,10 @@
   .splitFormLinks {
     padding-top: var(--space-6);
   }
-
-  .guestNav .navLink {
-    min-height: 40px;
-    padding: 0 var(--space-2);
-    font-size: var(--text-xs);
-  }
 }
 
 @media (max-width: 480px) {
-  .headerBar {
+  .headerInner {
     padding-left: max(var(--space-3), env(safe-area-inset-left, 0px));
     padding-right: max(var(--space-3), env(safe-area-inset-right, 0px));
   }
@@ -737,12 +676,6 @@
     padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
   }
 
-  .mobileNav {
-    width: 100%;
-    max-width: none;
-    border-left: none;
-  }
-
   .splitBrand {
     min-height: 20vh;
     max-height: 180px;
@@ -754,16 +687,5 @@
 
   .splitForm {
     padding: var(--space-5) var(--space-3);
-  }
-}
-
-/* ── Large desktop ── */
-@media (min-width: 1280px) {
-  .headerBar {
-    padding: 0 var(--space-8);
-  }
-
-  .main {
-    padding: var(--space-8) var(--space-8);
   }
 }

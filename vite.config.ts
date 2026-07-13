@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   appType: 'spa',
   server: {
-    host: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3001',
