@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { useAuth } from '../store/hooks/useAuth';
 import styles from './Layout.module.css';
 
@@ -29,7 +29,10 @@ export function Layout() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const profileRef = useRef<HTMLDivElement>(null);
+  const desktopProfileRef = useRef<HTMLDivElement>(null);
+  const mobileProfileRef = useRef<HTMLDivElement>(null);
+
+  const closeMenu = () => setMenuOpen(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -54,8 +57,22 @@ export function Layout() {
   }, [menuOpen]);
 
   useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      const inDesktop = desktopProfileRef.current?.contains(target);
+      const inMobile = mobileProfileRef.current?.contains(target);
+      if (!inDesktop && !inMobile) {
         setProfileOpen(false);
       }
     };
@@ -69,7 +86,81 @@ export function Layout() {
     logout();
     navigate('/');
     setProfileOpen(false);
+    closeMenu();
   };
+
+  const renderNavLinks = () => (
+    <div className={styles.navLinks}>
+      {NAV_ITEMS.map(({ to, label, end }) => (
+        <NavLink
+          key={to}
+          to={to}
+          end={end}
+          className={({ isActive }) =>
+            `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+          }
+          onClick={closeMenu}
+        >
+          {label}
+        </NavLink>
+      ))}
+      {user?.email === 'demo@bookshelf.app' && (
+        <NavLink
+          to="/users"
+          className={({ isActive }) =>
+            `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+          }
+          onClick={closeMenu}
+        >
+          Users
+        </NavLink>
+      )}
+    </div>
+  );
+
+  const renderProfile = (profileRef: RefObject<HTMLDivElement | null>) => (
+    <div className={styles.navRight}>
+      <div className={styles.profileWrap} ref={profileRef}>
+        <button
+          type="button"
+          className={styles.profileBtn}
+          onClick={() => setProfileOpen((o) => !o)}
+          aria-expanded={profileOpen}
+          aria-haspopup="true"
+        >
+          <span className={styles.avatar} aria-hidden="true">
+            {getInitials(user!.name)}
+          </span>
+          <span className={styles.profileInfo}>
+            <span className={styles.profileName}>{user!.name}</span>
+            <span className={styles.profileEmail}>{user!.email}</span>
+          </span>
+          <svg className={styles.chevron} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        {profileOpen && (
+          <div className={styles.dropdown} role="menu">
+            <div className={styles.dropdownHeader}>
+              <span className={styles.dropdownAvatar}>{getInitials(user!.name)}</span>
+              <div>
+                <p className={styles.dropdownName}>{user!.name}</p>
+                <p className={styles.dropdownEmail}>{user!.email}</p>
+              </div>
+            </div>
+            <div className={styles.dropdownDivider} />
+            <Link to="/profile" className={styles.dropdownItem} role="menuitem" onClick={() => { setProfileOpen(false); closeMenu(); }}>
+              Profile &amp; settings
+            </Link>
+            <button type="button" className={styles.dropdownItemDanger} role="menuitem" onClick={handleLogout}>
+              Log out
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   if (isLoginSplit) {
     return (
@@ -105,111 +196,67 @@ export function Layout() {
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
-        <div className={styles.headerInner}>
-          <div className={styles.headerLeft}>
-            <Link to="/" className={styles.logo}>
-              <span className={styles.logoIcon} aria-hidden="true">📚</span>
-              <span className={styles.logoText}>Bookshelf</span>
-            </Link>
+        <div className={styles.headerBar}>
+          <Link to="/" className={styles.logo} onClick={closeMenu}>
+            <span className={styles.logoIcon} aria-hidden="true">📚</span>
+            <span className={styles.logoText}>Bookshelf</span>
+          </Link>
 
-            {user && (
+          {user ? (
+            <>
+              <nav className={styles.desktopNav} aria-label="Main navigation">
+                {renderNavLinks()}
+                {renderProfile(desktopProfileRef)}
+              </nav>
+
               <button
                 type="button"
-                className={styles.menuToggle}
+                className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ''}`}
                 onClick={() => setMenuOpen((o) => !o)}
                 aria-expanded={menuOpen}
-                aria-label="Toggle navigation menu"
+                aria-controls="mobile-nav"
+                aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               >
                 <span className={styles.menuBar} />
                 <span className={styles.menuBar} />
                 <span className={styles.menuBar} />
               </button>
-            )}
-          </div>
-
-          <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`}>
-            {user ? (
-              <>
-                <div className={styles.navLinks}>
-                  {NAV_ITEMS.map(({ to, label, end }) => (
-                    <NavLink
-                      key={to}
-                      to={to}
-                      end={end}
-                      className={({ isActive }) =>
-                        `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
-                      }
-                    >
-                      {label}
-                    </NavLink>
-                  ))}
-                  {user.email === 'demo@bookshelf.app' && (
-                    <NavLink
-                      to="/users"
-                      className={({ isActive }) =>
-                        `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
-                      }
-                    >
-                      Users
-                    </NavLink>
-                  )}
-                </div>
-
-                <div className={styles.navRight}>
-                  <div className={styles.profileWrap} ref={profileRef}>
-                    <button
-                      type="button"
-                      className={styles.profileBtn}
-                      onClick={() => setProfileOpen((o) => !o)}
-                      aria-expanded={profileOpen}
-                      aria-haspopup="true"
-                    >
-                      <span className={styles.avatar} aria-hidden="true">
-                        {getInitials(user.name)}
-                      </span>
-                      <span className={styles.profileInfo}>
-                        <span className={styles.profileName}>{user.name}</span>
-                        <span className={styles.profileEmail}>{user.email}</span>
-                      </span>
-                      <svg className={styles.chevron} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </button>
-
-                    {profileOpen && (
-                      <div className={styles.dropdown} role="menu">
-                        <div className={styles.dropdownHeader}>
-                          <span className={styles.dropdownAvatar}>{getInitials(user.name)}</span>
-                          <div>
-                            <p className={styles.dropdownName}>{user.name}</p>
-                            <p className={styles.dropdownEmail}>{user.email}</p>
-                          </div>
-                        </div>
-                        <div className={styles.dropdownDivider} />
-                        <Link to="/profile" className={styles.dropdownItem} role="menuitem" onClick={() => setProfileOpen(false)}>
-                          Profile &amp; settings
-                        </Link>
-                        <button type="button" className={styles.dropdownItemDanger} role="menuitem" onClick={handleLogout}>
-                          Log out
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className={styles.navLinks}>
-                <NavLink to="/" end className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
-                  Log in
-                </NavLink>
-                <NavLink to="/register" className={({ isActive }) => `${styles.navLink} ${styles.navLinkCta} ${isActive ? styles.navLinkActive : ''}`}>
-                  Sign up
-                </NavLink>
-              </div>
-            )}
-          </nav>
+            </>
+          ) : (
+            <nav className={styles.guestNav} aria-label="Authentication">
+              <NavLink to="/" end className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>
+                Log in
+              </NavLink>
+              <NavLink to="/register" className={({ isActive }) => `${styles.navLink} ${styles.navLinkCta} ${isActive ? styles.navLinkActive : ''}`}>
+                Sign up
+              </NavLink>
+            </nav>
+          )}
         </div>
       </header>
+
+      {user && menuOpen && (
+        <button
+          type="button"
+          className={styles.backdrop}
+          aria-label="Close navigation menu"
+          onClick={closeMenu}
+        />
+      )}
+
+      {user && (
+        <nav
+          id="mobile-nav"
+          className={`${styles.mobileNav} ${menuOpen ? styles.mobileNavOpen : ''}`}
+          aria-label="Mobile navigation"
+          aria-hidden={!menuOpen}
+        >
+          {renderNavLinks()}
+          <div className={styles.mobileNavDivider} />
+          {renderProfile(mobileProfileRef)}
+        </nav>
+      )}
+
       <main className={styles.main}>
         <Outlet />
       </main>
