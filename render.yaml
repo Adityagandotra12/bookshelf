@@ -5,9 +5,10 @@
 #   /server    Express API            — deploy THIS as a Render Web Service
 #
 # Preferred: rootDir server (builds only the API).
-# If Root Directory is empty in the dashboard, use:
+# If Root Directory is empty in the dashboard:
 #   Build Command: npm run build:server
 #   Start Command: npm start
+# (start builds the API if dist/ is missing from the build phase)
 
 services:
   - type: web

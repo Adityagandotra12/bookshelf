@@ -13,9 +13,9 @@
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "cd server && node dist/index.js",
+    "start": "npm run build:server && cd server && node dist/index.js",
     "server:dev": "cd server && npm run dev",
-    "server:start": "npm run build:server && npm start"
+    "server:start": "npm start"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
