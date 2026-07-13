@@ -4,8 +4,10 @@
 #   / (root)   React + Vite frontend — deploy to Vercel OR Render Static Site (dist/)
 #   /server    Express API            — deploy THIS as a Render Web Service
 #
-# IMPORTANT: Do NOT deploy the repo root as a Web Service.
-# Root package.json has no "start" script (it is a Vite SPA, not a Node server).
+# Preferred: rootDir server (builds only the API).
+# If Root Directory is empty in the dashboard, use:
+#   Build Command: npm run build:server
+#   Start Command: npm start
 
 services:
   - type: web

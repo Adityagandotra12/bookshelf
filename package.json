@@ -9,11 +9,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:server": "cd server && npm install && npm run build",
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
+    "start": "cd server && node dist/index.js",
     "server:dev": "cd server && npm run dev",
-    "server:start": "cd server && npm run build && npm start"
+    "server:start": "npm run build:server && npm start"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
